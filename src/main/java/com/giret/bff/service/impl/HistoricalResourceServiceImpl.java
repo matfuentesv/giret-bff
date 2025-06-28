@@ -16,16 +16,16 @@ public class HistoricalResourceServiceImpl implements HistoricalResourceService 
 
     @Override
     public List<HistoricalResource> findAllHistoricalResource() {
-        return List.of();
+        return historicalResourceClient.findAllHistoricalResource();
     }
 
     @Override
     public List<HistoricalResource> findHistoricalByResourceId(Long recursoId) {
-        return List.of();
+        return historicalResourceClient.findHistoricalResource(recursoId);
     }
 
     @Override
     public HistoricalResource saveHistoricalResource(HistoricalResource historicalResource) {
-        return null;
+        return historicalResourceClient.saveHistoricalResource(historicalResource);
     }
 }

@@ -1,7 +1,12 @@
 com\giret\bff\controller\ResourceController.class
 com\giret\bff\service\ResourceService.class
 com\giret\bff\model\Resource.class
-com\giret\bff\service\ResourceServiceImpl.class
+com\giret\bff\controller\HistoricalResourceController.class
+com\giret\bff\model\HistoricalResource.class
+com\giret\bff\service\impl\ResourceServiceImpl.class
 com\giret\bff\model\Document.class
+com\giret\bff\client\HistoricalResourceClient.class
 com\giret\bff\client\ResourceClient.class
+com\giret\bff\service\impl\HistoricalResourceServiceImpl.class
 com\giret\bff\ApiGiretBFF.class
+com\giret\bff\service\HistoricalResourceService.class
