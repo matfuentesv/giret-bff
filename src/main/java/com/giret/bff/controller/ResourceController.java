@@ -1,0 +1,64 @@
+package com.giret.bff.controller;
+
+import com.giret.bff.model.Document;
+import com.giret.bff.model.Resource;
+import com.giret.bff.service.ResourceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/bff/resource")
+public class ResourceController {
+
+    @Autowired
+    ResourceService resourceService;
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Resource>> findAllResources() {
+        return ResponseEntity.ok(resourceService.findAllResource());
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Resource> findResourceById(@PathVariable Long id) {
+        return ResponseEntity.ok(resourceService.findResourceById(id));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Resource> saveResource(@RequestBody Resource resource) {
+        return ResponseEntity.ok(resourceService.saveResource(resource));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Resource> updateResource(@RequestBody Resource resource) {
+        return ResponseEntity.ok(resourceService.updateResource(resource));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteResource(@PathVariable Long id) {
+        return ResponseEntity.ok(resourceService.deleteResource(id));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countResources() {
+        return ResponseEntity.ok(resourceService.countResources());
+    }
+
+    @GetMapping("/countByEstado")
+    public ResponseEntity<List<Object[]>> countByEstado() {
+        return ResponseEntity.ok(resourceService.countByEstado());
+    }
+
+    @GetMapping("/findByEstado/{state}")
+    public ResponseEntity<List<Resource>> findByEstado(@PathVariable String state) {
+        return ResponseEntity.ok(resourceService.findByEstado(state));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Resource>> searchResource(@RequestParam String term) {
+        return ResponseEntity.ok(resourceService.searchResource(term));
+    }
+
+}
