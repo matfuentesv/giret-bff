@@ -1,4 +1,10 @@
 package com.giret.bff.client;
 
-public class LoanClient {
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(name = "loanClient", url = "${api.giret.loan.base.url}")
+public interface LoanClient {
+
+
+
 }

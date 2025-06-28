@@ -10,7 +10,7 @@ public interface ResourceService {
     List<Resource> findAllResource();
     Resource findResourceById(Long id);
     Resource saveResource(Resource resource);
-    Resource updateResource(Resource resource);
+    Resource updateResource(Long id,Resource resource);
     Boolean deleteResource(Long id);
     Long countResources();
     List<Object[]> countByEstado();

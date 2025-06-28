@@ -17,8 +17,8 @@ public interface ResourceClient {
     @PostMapping(value = "/api/saveResource",produces = "application/json")
     Resource saveResource(@RequestBody Resource resource);
 
-    @PutMapping(value = "/api/updateResource",produces = "application/json")
-    Resource updateResource(@RequestBody Resource resource);
+    @PutMapping(value = "/api/updateResource/{id}",produces = "application/json")
+    Resource updateResource(@PathVariable("id")Long id, @RequestBody Resource resource);
 
     @DeleteMapping(value = "/api/deleteResource/{id}",produces = "application/json")
     Boolean deleteResource(@PathVariable ("id")Long id);

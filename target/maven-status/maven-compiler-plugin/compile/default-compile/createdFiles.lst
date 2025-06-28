@@ -5,6 +5,7 @@ com\giret\bff\controller\HistoricalResourceController.class
 com\giret\bff\model\HistoricalResource.class
 com\giret\bff\service\impl\ResourceServiceImpl.class
 com\giret\bff\model\Document.class
+com\giret\bff\client\LoanClient.class
 com\giret\bff\client\HistoricalResourceClient.class
 com\giret\bff\client\ResourceClient.class
 com\giret\bff\service\impl\HistoricalResourceServiceImpl.class

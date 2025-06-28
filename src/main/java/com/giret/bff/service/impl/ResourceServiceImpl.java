@@ -32,8 +32,8 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource updateResource(Resource resource) {
-        return resourceClient.updateResource(resource);
+    public Resource updateResource(Long id,Resource resource) {
+        return resourceClient.updateResource(id,resource);
     }
 
     @Override

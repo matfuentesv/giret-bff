@@ -32,9 +32,9 @@ public class ResourceController {
         return ResponseEntity.ok(resourceService.saveResource(resource));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Resource> updateResource(@RequestBody Resource resource) {
-        return ResponseEntity.ok(resourceService.updateResource(resource));
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Resource> updateResource(@PathVariable("id")Long id,@RequestBody Resource resource) {
+        return ResponseEntity.ok(resourceService.updateResource(id,resource));
     }
 
     @DeleteMapping("/delete/{id}")
