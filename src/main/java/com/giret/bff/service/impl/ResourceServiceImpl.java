@@ -1,8 +1,9 @@
-package com.giret.bff.service;
+package com.giret.bff.service.impl;
 
 
 import com.giret.bff.client.ResourceClient;
 import com.giret.bff.model.Resource;
+import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

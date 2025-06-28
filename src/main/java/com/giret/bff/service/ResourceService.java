@@ -1,7 +1,6 @@
 package com.giret.bff.service;
 
 import com.giret.bff.model.Resource;
-
 import java.util.List;
 
 

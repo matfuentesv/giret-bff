@@ -1,6 +1,6 @@
 package com.giret.bff.controller;
 
-import com.giret.bff.model.Document;
+
 import com.giret.bff.model.Resource;
 import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bff/resource")
+@CrossOrigin(origins = "*")
 public class ResourceController {
 
     @Autowired
