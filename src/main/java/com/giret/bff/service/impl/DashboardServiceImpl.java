@@ -81,14 +81,21 @@ public class DashboardServiceImpl implements DashboardServices {
     public List<PrestamoPorVencer> GetLoansDue() {
 
         final LocalDate hoy = LocalDate.now();
-        final List<Loan>loanList = loanServices.getAllLoans();
+
+        // Calcula el último día de la semana (domingo)
+        final LocalDate finSemana = hoy.with(java.time.DayOfWeek.SUNDAY);
+
+        final List<Loan> loanList = loanServices.getAllLoans();
         List<PrestamoPorVencer> result = new ArrayList<>();
 
         for (Loan loan : loanList) {
             LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());
-            long dias = ChronoUnit.DAYS.between(hoy, fechaDev);
 
-            if (dias >= 0 && dias <= 3) {
+
+            if (!fechaDev.isBefore(hoy) && !fechaDev.isAfter(finSemana)) {
+
+                long dias = ChronoUnit.DAYS.between(hoy, fechaDev);
+
                 String mensaje;
                 if (dias == 0) {
                     mensaje = "Vence Hoy";
@@ -98,13 +105,13 @@ public class DashboardServiceImpl implements DashboardServices {
                     mensaje = "Vence en " + dias + " días";
                 }
 
-                PrestamoPorVencer p = PrestamoPorVencer
-                                        .builder()
-                                        .recurso(loan.getRecursoId())
-                                        .solicitadoPor(loan.getSolicitante())
-                                        .mensajeVencimiento(mensaje)
-                                        .fechaDevolucion(loan.getFechaDevolucion())
-                                        .build();
+                PrestamoPorVencer p = PrestamoPorVencer.builder()
+                        .prestamoId(loan.getIdPrestamo())
+                        .recurso(resourceService.findResourceById(loan.getRecursoId()))
+                        .solicitadoPor(loan.getSolicitante())
+                        .mensajeVencimiento(mensaje)
+                        .fechaDevolucion(loan.getFechaDevolucion())
+                        .build();
 
                 result.add(p);
             }

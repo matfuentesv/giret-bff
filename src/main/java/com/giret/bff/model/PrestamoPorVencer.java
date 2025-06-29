@@ -7,8 +7,9 @@ import lombok.Data;
 @Builder
 public class PrestamoPorVencer {
 
-    private Long recurso;
+    private Long prestamoId;
     private String solicitadoPor;
     private String mensajeVencimiento;
     private String fechaDevolucion;
+    private Resource recurso;
 }
