@@ -2,6 +2,7 @@ package com.giret.bff.controller;
 
 import com.giret.bff.model.DashboardPanel;
 import com.giret.bff.model.PorcentajeRecurso;
+import com.giret.bff.model.PrestamoPorVencer;
 import com.giret.bff.service.DashboardServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,9 @@ public class DashboardController {
         return ResponseEntity.ok(dashboardServices.countByEstadoConPorcentaje());
     }
 
-
+    @GetMapping("/findLoanDue")
+    public ResponseEntity<List<PrestamoPorVencer>> prestamosPorVencer() {
+        return ResponseEntity.ok(dashboardServices.GetLoansDue());
+    }
 
 }
