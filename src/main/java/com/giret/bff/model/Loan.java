@@ -1,7 +1,11 @@
 package com.giret.bff.model;
 
 
+import lombok.Builder;
+import lombok.Data;
 
+@Data
+@Builder
 public class Loan {
 
     private Long idPrestamo;
@@ -10,5 +14,6 @@ public class Loan {
     private String fechaDevolucion;
     private String solicitante;
     private String estado;
+    private Resource resource;
 
 }

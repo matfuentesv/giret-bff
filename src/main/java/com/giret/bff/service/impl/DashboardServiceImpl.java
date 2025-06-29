@@ -1,13 +1,13 @@
 package com.giret.bff.service.impl;
 
-import com.giret.bff.model.DashboardPanel;
-import com.giret.bff.model.PorcentajeRecurso;
-import com.giret.bff.model.Resource;
+import com.giret.bff.model.*;
 import com.giret.bff.service.DashboardServices;
+import com.giret.bff.service.LoanServices;
 import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,9 @@ public class DashboardServiceImpl implements DashboardServices {
 
     @Autowired
     ResourceService resourceService;
+
+    @Autowired
+    LoanServices loanServices;
 
     @Override
     public DashboardPanel getDashboardPanel() {
@@ -70,6 +73,42 @@ public class DashboardServiceImpl implements DashboardServices {
             result.add(p);
         });
 
+
+        return result;
+    }
+
+    @Override
+    public List<PrestamoPorVencer> GetLoansDue() {
+
+        final LocalDate hoy = LocalDate.now();
+        final List<Loan>loanList = loanServices.getAllLoans();
+        List<PrestamoPorVencer> result = new ArrayList<>();
+
+        for (Loan loan : loanList) {
+            LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());
+            long dias = ChronoUnit.DAYS.between(hoy, fechaDev);
+
+            if (dias >= 0 && dias <= 3) {
+                String mensaje;
+                if (dias == 0) {
+                    mensaje = "Vence Hoy";
+                } else if (dias == 1) {
+                    mensaje = "Vence Mañana";
+                } else {
+                    mensaje = "Vence en " + dias + " días";
+                }
+
+                PrestamoPorVencer p = PrestamoPorVencer
+                                        .builder()
+                                        .recurso(loan.getRecursoId())
+                                        .solicitadoPor(loan.getSolicitante())
+                                        .mensajeVencimiento(mensaje)
+                                        .fechaDevolucion(loan.getFechaDevolucion())
+                                        .build();
+
+                result.add(p);
+            }
+        }
 
         return result;
     }
