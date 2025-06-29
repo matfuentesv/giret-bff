@@ -35,15 +35,15 @@ public class DashboardServiceImpl implements DashboardServices {
                                             .filter(x-> x.getEstado().equalsIgnoreCase("mantenimiento"))
                                             .count();
 
-        final Long recursosAtrasados = resourceService.findAllResource().stream()
-                .filter(x-> x.getEstado().equalsIgnoreCase("atrasado"))
+        final Long recursosEliminado = resourceService.findAllResource().stream()
+                .filter(x-> x.getEstado().equalsIgnoreCase("eliminado"))
                 .count();
 
         return  DashboardPanel.builder()
                 .recursosTotales(recursosTotales)
                 .recursosPrestados(recursosPrestados)
                 .recursosMantenimiento(recursosMantenimiento)
-                .recursosAtrasados(recursosAtrasados)
+                .recursosEliminado(recursosEliminado)
                 .build();
     }
 

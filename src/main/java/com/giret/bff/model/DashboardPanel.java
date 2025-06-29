@@ -10,5 +10,5 @@ public class DashboardPanel {
     private Long recursosTotales;
     private Long recursosPrestados;
     private Long recursosMantenimiento;
-    private Long recursosAtrasados;
+    private Long recursosEliminado;
 }
