@@ -81,42 +81,47 @@ public class DashboardServiceImpl implements DashboardServices {
     public List<PrestamoPorVencer> GetLoansDue() {
 
         final LocalDate hoy = LocalDate.now();
-
-        // Calcula el último día de la semana (domingo)
         final LocalDate finSemana = hoy.with(java.time.DayOfWeek.SUNDAY);
 
-        final List<Loan> loanList = loanServices.getAllLoans();
+        final List<Loan> loanList = loanServices.getAllLoans().stream()
+                .filter(loan -> {
+                    LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());
+                    return !fechaDev.isBefore(hoy) && !fechaDev.isAfter(finSemana);
+                })
+                .collect(Collectors.toMap(
+                        Loan::getIdPrestamo, // Key: ID único
+                        loan -> loan,        // Value: objeto Loan
+                        (loan1, loan2) -> loan1 // Si hay repetidos, conservar uno solo
+                ))
+                .values().stream().toList();
+
         List<PrestamoPorVencer> result = new ArrayList<>();
 
         for (Loan loan : loanList) {
             LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());
+            long dias = ChronoUnit.DAYS.between(hoy, fechaDev);
 
-
-            if (!fechaDev.isBefore(hoy) && !fechaDev.isAfter(finSemana)) {
-
-                long dias = ChronoUnit.DAYS.between(hoy, fechaDev);
-
-                String mensaje;
-                if (dias == 0) {
-                    mensaje = "Vence Hoy";
-                } else if (dias == 1) {
-                    mensaje = "Vence Mañana";
-                } else {
-                    mensaje = "Vence en " + dias + " días";
-                }
-
-                PrestamoPorVencer p = PrestamoPorVencer.builder()
-                        .prestamoId(loan.getIdPrestamo())
-                        .recurso(resourceService.findResourceById(loan.getRecursoId()))
-                        .solicitadoPor(loan.getSolicitante())
-                        .mensajeVencimiento(mensaje)
-                        .fechaDevolucion(loan.getFechaDevolucion())
-                        .build();
-
-                result.add(p);
+            String mensaje;
+            if (dias == 0) {
+                mensaje = "Vence Hoy";
+            } else if (dias == 1) {
+                mensaje = "Vence Mañana";
+            } else {
+                mensaje = "Vence en " + dias + " días";
             }
+
+            PrestamoPorVencer p = PrestamoPorVencer.builder()
+                    .prestamoId(loan.getIdPrestamo())
+                    .recurso(resourceService.findResourceById(loan.getRecursoId()))
+                    .solicitadoPor(loan.getSolicitante())
+                    .mensajeVencimiento(mensaje)
+                    .fechaDevolucion(loan.getFechaDevolucion())
+                    .build();
+
+            result.add(p);
         }
 
         return result;
     }
+
 }
