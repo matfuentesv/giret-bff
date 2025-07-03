@@ -1,10 +1,14 @@
 com\giret\bff\controller\ResourceController.class
 com\giret\bff\model\Resource.class
+com\giret\bff\service\DocumentService.class
 com\giret\bff\model\DashboardPanel$DashboardPanelBuilder.class
 com\giret\bff\controller\HistoricalResourceController.class
 com\giret\bff\model\HistoricalResource.class
 com\giret\bff\model\PorcentajeRecurso$PorcentajeRecursoBuilder.class
+com\giret\bff\client\DocumentClient.class
 com\giret\bff\client\LoanClient.class
+com\giret\bff\controller\DocumentController.class
+com\giret\bff\service\impl\DocumentServiceImpl.class
 com\giret\bff\client\ResourceClient.class
 com\giret\bff\model\DashboardPanel.class
 com\giret\bff\service\impl\DashboardServiceImpl.class
@@ -20,6 +24,7 @@ com\giret\bff\service\DashboardServices.class
 com\giret\bff\client\HistoricalResourceClient.class
 com\giret\bff\model\Loan$LoanBuilder.class
 com\giret\bff\model\PrestamoPorVencer.class
+com\giret\bff\model\Document$DocumentBuilder.class
 com\giret\bff\service\LoanServices.class
 com\giret\bff\service\impl\LoanServicesImpl.class
 com\giret\bff\service\impl\HistoricalResourceServiceImpl.class

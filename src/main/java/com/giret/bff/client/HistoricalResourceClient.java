@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "historicalResourceClient", url = "${api.giret.resouce.historical.base.url}")
+@FeignClient(name = "historicalResourceClient", url = "${api.giret.resource.historical.base.url}")
 public interface HistoricalResourceClient {
 
     @GetMapping(value = "/api/findAllHistoricalResource",produces = "application/json")

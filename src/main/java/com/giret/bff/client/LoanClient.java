@@ -19,7 +19,7 @@ public interface LoanClient {
     List<Loan> findLoandByResource(@PathVariable("id")Long id);
 
     @PostMapping(value = "/api/saveLoan",produces = "application/json")
-    Loan saveLoan(@RequestBody Loan loan  );
+    Loan saveLoan(@RequestBody Loan loan);
 
 
 }

@@ -1,8 +1,10 @@
 C:\otros\giret-bff\src\main\java\com\giret\bff\ApiGiretBFF.java
+C:\otros\giret-bff\src\main\java\com\giret\bff\client\DocumentClient.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\client\HistoricalResourceClient.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\client\LoanClient.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\client\ResourceClient.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\controller\DashboardController.java
+C:\otros\giret-bff\src\main\java\com\giret\bff\controller\DocumentController.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\controller\HistoricalResourceController.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\controller\LoanController.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\controller\ResourceController.java
@@ -14,8 +16,10 @@ C:\otros\giret-bff\src\main\java\com\giret\bff\model\PorcentajeRecurso.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\model\PrestamoPorVencer.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\model\Resource.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\DashboardServices.java
+C:\otros\giret-bff\src\main\java\com\giret\bff\service\DocumentService.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\HistoricalResourceService.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\impl\DashboardServiceImpl.java
+C:\otros\giret-bff\src\main\java\com\giret\bff\service\impl\DocumentServiceImpl.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\impl\HistoricalResourceServiceImpl.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\impl\LoanServicesImpl.java
 C:\otros\giret-bff\src\main\java\com\giret\bff\service\impl\ResourceServiceImpl.java
