@@ -15,11 +15,10 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class DocumentController {
 
-
     @Autowired
     DocumentService documentService;
 
-    @PostMapping(value = "/saveDocument",consumes = "multipart/form-data")
+    @PostMapping(value = "/saveDocument")
     public ResponseEntity<Document> upload(@RequestParam("file") MultipartFile file,
                                            @RequestParam("recursoId") Long recursoId){
 
