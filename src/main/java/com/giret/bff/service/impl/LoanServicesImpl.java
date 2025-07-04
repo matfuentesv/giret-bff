@@ -1,7 +1,9 @@
 package com.giret.bff.service.impl;
 
+import com.giret.bff.client.FunctionClient;
 import com.giret.bff.client.LoanClient;
 import com.giret.bff.model.Loan;
+import com.giret.bff.model.Resource;
 import com.giret.bff.service.LoanServices;
 import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class LoanServicesImpl implements LoanServices {
 
     @Autowired
     ResourceService resourceService;
+
+    @Autowired
+    FunctionClient functionClient;
 
     @Override
     public List<Loan> getAllLoans() {
@@ -40,11 +45,19 @@ public class LoanServicesImpl implements LoanServices {
         return loanClient.findLoandByResource(resourceId);
     }
 
+
+
     @Override
     public Loan saveLoan(Loan loan) {
         //Llamar function recurso ===> estado(prestado)
         final Resource resource = resourceService.findResourceById(loan.getRecursoId());
         functionClient.updateResource(resource);
         return loanClient.saveLoan(loan);
+    }
+
+    @Override
+    public Loan updateLoanByState(String state, Long id) {
+
+        return loanClient.updateLoanByState(state, id);
     }
 }
