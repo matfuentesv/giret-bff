@@ -42,6 +42,9 @@ public class LoanServicesImpl implements LoanServices {
 
     @Override
     public Loan saveLoan(Loan loan) {
+        //Llamar function recurso ===> estado(prestado)
+        final Resource resource = resourceService.findResourceById(loan.getRecursoId());
+        functionClient.updateResource(resource);
         return loanClient.saveLoan(loan);
     }
 }
