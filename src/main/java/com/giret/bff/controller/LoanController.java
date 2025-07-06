@@ -34,7 +34,7 @@ public class LoanController {
     }
 
     @PutMapping("/updateLoanByState")
-    public ResponseEntity<Loan> updateLoanByState(@RequestBody UpdateLoan body) {
+    public ResponseEntity<Boolean> updateLoanByState(@RequestBody UpdateLoan body) {
         return ResponseEntity.ok(loanServices.updateLoanByState(body));
     }
 

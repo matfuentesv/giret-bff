@@ -64,8 +64,8 @@ public class LoanServicesImpl implements LoanServices {
     }
 
     @Override
-    public Loan updateLoanByState(UpdateLoan body) {
+    public Boolean updateLoanByState(UpdateLoan body) {
         functionClient.updateLoan(functionKeyLoan,body);
-        return loanClient.findLoandByResource(body.getPrestamoId()).get(0);
+        return true;
     }
 }
