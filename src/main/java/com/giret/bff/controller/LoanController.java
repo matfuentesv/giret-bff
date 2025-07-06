@@ -32,7 +32,7 @@ public class LoanController {
         return ResponseEntity.ok(loanServices.saveLoan(loan));
     }
 
-    @PostMapping("/updateLoanByState/{state}/{id}")
+    @PutMapping("/updateLoanByState/{state}/{id}")
     public ResponseEntity<Loan> updateLoanByState(@PathVariable ("state")String state,@PathVariable ("id")Long id) {
         return ResponseEntity.ok(loanServices.updateLoanByState(state,id));
     }

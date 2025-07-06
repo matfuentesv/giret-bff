@@ -8,7 +8,7 @@ import com.giret.bff.model.Loan;
 import com.giret.bff.model.Resource;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "functionClient", url = "${azure.function.base-url}")
+@FeignClient(name = "functionClient", url = "${azure.function.base.url}")
 public interface FunctionClient {
 
 
@@ -18,8 +18,7 @@ public interface FunctionClient {
             @RequestBody Resource body
     );
 
-  
-    String createLoan(@RequestBody Loan body);
+
 
 
 }
