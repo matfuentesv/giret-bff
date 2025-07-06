@@ -6,6 +6,7 @@ com\giret\bff\controller\HistoricalResourceController.class
 com\giret\bff\model\HistoricalResource.class
 com\giret\bff\model\PorcentajeRecurso$PorcentajeRecursoBuilder.class
 com\giret\bff\client\DocumentClient.class
+com\giret\bff\model\HistoricalResource$HistoricalResourceBuilder.class
 com\giret\bff\client\LoanClient.class
 com\giret\bff\model\UpdateLoan.class
 com\giret\bff\controller\DocumentController.class

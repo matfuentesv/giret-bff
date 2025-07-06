@@ -1,12 +1,15 @@
 package com.giret.bff.service.impl;
 
 
+import com.giret.bff.client.HistoricalResourceClient;
 import com.giret.bff.client.ResourceClient;
+import com.giret.bff.model.HistoricalResource;
 import com.giret.bff.model.Resource;
 import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,6 +17,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     ResourceClient  resourceClient;
+
+    @Autowired
+    HistoricalResourceClient historicalResourceClient;
 
 
     @Override
@@ -28,7 +34,17 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource saveResource(Resource resource) {
-        return resourceClient.saveResource(resource);
+
+        final Resource r = resourceClient.saveResource(resource);
+        final HistoricalResource historicalResource = HistoricalResource
+                                                 .builder()
+                                                 .recursoId(r.getIdRecurso())
+                                                 .fechaCambioEstado(LocalDate.now().toString())
+                                                 .accion("creacion")
+                                                 .descripcion("creacion del recurso")
+                                                 .build();
+        historicalResourceClient.saveHistoricalResource(historicalResource);
+        return r;
     }
 
     @Override
