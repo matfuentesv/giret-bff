@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,13 +66,14 @@ public class LoanServicesImpl implements LoanServices {
 
     @Override
     public Loan saveLoan(Loan loan) {
-        //Llamar function recurso ===> estado(prestado)
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
         final Resource resource = resourceService.findResourceById(loan.getRecursoId());
         functionClient.updateResource(functionKeyResource,resource);
         final HistoricalResource historicalResource = HistoricalResource
                 .builder()
                 .recursoId(resource.getIdRecurso())
-                .fechaCambioEstado(LocalDate.now().toString())
+                .fechaCambioEstado(fechaCambioEstado)
                 .accion("Actualizacion")
                 .descripcion("Cambio de estado a prestado")
                 .build();
@@ -80,11 +83,13 @@ public class LoanServicesImpl implements LoanServices {
 
     @Override
     public Boolean updateLoanByState(UpdateLoan body) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
         functionClient.updateLoan(functionKeyLoan,body);
         final HistoricalResource historicalResource = HistoricalResource
                 .builder()
                 .recursoId(body.getRecursoId())
-                .fechaCambioEstado(LocalDate.now().toString())
+                .fechaCambioEstado(fechaCambioEstado)
                 .accion("Actualizacion")
                 .descripcion("Cambio de estado a devuelto a Bodega")
                 .build();

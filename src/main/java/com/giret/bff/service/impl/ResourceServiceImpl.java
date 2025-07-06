@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -34,12 +36,13 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource saveResource(Resource resource) {
-
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
         final Resource r = resourceClient.saveResource(resource);
         final HistoricalResource historicalResource = HistoricalResource
                                                  .builder()
                                                  .recursoId(r.getIdRecurso())
-                                                 .fechaCambioEstado(LocalDate.now().toString())
+                                                 .fechaCambioEstado(fechaCambioEstado)
                                                  .accion("Creacion")
                                                  .descripcion("creacion del recurso")
                                                  .build();
@@ -49,11 +52,14 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource updateResource(Long id,Resource resource) {
-        Resource r = resourceClient.updateResource(id,resource);
+
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
+        final Resource r = resourceClient.updateResource(id,resource);
         final HistoricalResource historicalResource = HistoricalResource
                 .builder()
                 .recursoId(r.getIdRecurso())
-                .fechaCambioEstado(LocalDate.now().toString())
+                .fechaCambioEstado(fechaCambioEstado)
                 .accion("Actualizacion")
                 .descripcion("Cambio de estado a " + r.getEstado())
                 .build();
