@@ -40,7 +40,7 @@ public class ResourceServiceImpl implements ResourceService {
                                                  .builder()
                                                  .recursoId(r.getIdRecurso())
                                                  .fechaCambioEstado(LocalDate.now().toString())
-                                                 .accion("creacion")
+                                                 .accion("Creacion")
                                                  .descripcion("creacion del recurso")
                                                  .build();
         historicalResourceClient.saveHistoricalResource(historicalResource);
@@ -49,7 +49,16 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource updateResource(Long id,Resource resource) {
-        return resourceClient.updateResource(id,resource);
+        Resource r = resourceClient.updateResource(id,resource);
+        final HistoricalResource historicalResource = HistoricalResource
+                .builder()
+                .recursoId(r.getIdRecurso())
+                .fechaCambioEstado(LocalDate.now().toString())
+                .accion("Actualizacion")
+                .descripcion("Cambio de estado a " + r.getEstado())
+                .build();
+        historicalResourceClient.saveHistoricalResource(historicalResource);
+        return r;
     }
 
     @Override

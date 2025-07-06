@@ -1,7 +1,9 @@
 package com.giret.bff.service.impl;
 
 import com.giret.bff.client.FunctionClient;
+import com.giret.bff.client.HistoricalResourceClient;
 import com.giret.bff.client.LoanClient;
+import com.giret.bff.model.HistoricalResource;
 import com.giret.bff.model.Loan;
 import com.giret.bff.model.Resource;
 import com.giret.bff.model.UpdateLoan;
@@ -10,6 +12,8 @@ import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,9 @@ public class LoanServicesImpl implements LoanServices {
 
     @Value("${azure.function.updateLoan.key}")
     private String functionKeyLoan;
+
+    @Autowired
+    HistoricalResourceClient historicalResourceClient;
 
     @Override
     public List<Loan> getAllLoans() {
@@ -60,12 +67,28 @@ public class LoanServicesImpl implements LoanServices {
         //Llamar function recurso ===> estado(prestado)
         final Resource resource = resourceService.findResourceById(loan.getRecursoId());
         functionClient.updateResource(functionKeyResource,resource);
+        final HistoricalResource historicalResource = HistoricalResource
+                .builder()
+                .recursoId(resource.getIdRecurso())
+                .fechaCambioEstado(LocalDate.now().toString())
+                .accion("Actualizacion")
+                .descripcion("Cambio de estado a prestado")
+                .build();
+        historicalResourceClient.saveHistoricalResource(historicalResource);
         return loanClient.saveLoan(loan);
     }
 
     @Override
     public Boolean updateLoanByState(UpdateLoan body) {
         functionClient.updateLoan(functionKeyLoan,body);
+        final HistoricalResource historicalResource = HistoricalResource
+                .builder()
+                .recursoId(body.getRecursoId())
+                .fechaCambioEstado(LocalDate.now().toString())
+                .accion("Actualizacion")
+                .descripcion("Cambio de estado a devuelto a Bodega")
+                .build();
+        historicalResourceClient.saveHistoricalResource(historicalResource);
         return true;
     }
 }
