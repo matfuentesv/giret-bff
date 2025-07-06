@@ -7,6 +7,7 @@ com\giret\bff\model\HistoricalResource.class
 com\giret\bff\model\PorcentajeRecurso$PorcentajeRecursoBuilder.class
 com\giret\bff\client\DocumentClient.class
 com\giret\bff\client\LoanClient.class
+com\giret\bff\model\UpdateLoan.class
 com\giret\bff\controller\DocumentController.class
 com\giret\bff\service\impl\DocumentServiceImpl.class
 com\giret\bff\client\ResourceClient.class

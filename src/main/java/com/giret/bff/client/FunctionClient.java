@@ -1,5 +1,6 @@
 package com.giret.bff.client;
 
+import com.giret.bff.model.UpdateLoan;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,12 @@ public interface FunctionClient {
     String updateResource(
             @RequestParam("code") String functionKey,
             @RequestBody Resource body
+    );
+
+    @PostMapping(value = "/api/updateLoan", produces = "application/json")
+    String updateLoan(
+            @RequestParam("code") String functionKey,
+            @RequestBody UpdateLoan body
     );
 
 
