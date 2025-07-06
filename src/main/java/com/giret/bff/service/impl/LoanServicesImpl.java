@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +69,8 @@ public class LoanServicesImpl implements LoanServices {
     @Override
     public Loan saveLoan(Loan loan) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
+        final ZoneId chileZoneId = ZoneId.of("America/Santiago");
+        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);
         final Resource resource = resourceService.findResourceById(loan.getRecursoId());
         functionClient.updateResource(functionKeyResource,resource);
         final HistoricalResource historicalResource = HistoricalResource
@@ -84,7 +87,8 @@ public class LoanServicesImpl implements LoanServices {
     @Override
     public Boolean updateLoanByState(UpdateLoan body) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
+        final ZoneId chileZoneId = ZoneId.of("America/Santiago");
+        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);
         functionClient.updateLoan(functionKeyLoan,body);
         final HistoricalResource historicalResource = HistoricalResource
                 .builder()

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -37,7 +39,8 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public Resource saveResource(Resource resource) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
+        final ZoneId chileZoneId = ZoneId.of("America/Santiago");
+        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);
         final Resource r = resourceClient.saveResource(resource);
         final HistoricalResource historicalResource = HistoricalResource
                                                  .builder()
@@ -54,7 +57,8 @@ public class ResourceServiceImpl implements ResourceService {
     public Resource updateResource(Long id,Resource resource) {
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        final String fechaCambioEstado = LocalDateTime.now().format(formatter);
+        final ZoneId chileZoneId = ZoneId.of("America/Santiago");
+        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);
         final Resource r = resourceClient.updateResource(id,resource);
         final HistoricalResource historicalResource = HistoricalResource
                 .builder()
