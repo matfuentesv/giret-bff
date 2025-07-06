@@ -31,4 +31,5 @@ com\giret\bff\service\LoanServices.class
 com\giret\bff\service\impl\LoanServicesImpl.class
 com\giret\bff\service\impl\HistoricalResourceServiceImpl.class
 com\giret\bff\ApiGiretBFF.class
+com\giret\bff\model\UpdateLoan$UpdateLoanBuilder.class
 com\giret\bff\service\HistoricalResourceService.class

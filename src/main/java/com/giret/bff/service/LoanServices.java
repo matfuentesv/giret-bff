@@ -11,6 +11,6 @@ public interface LoanServices {
     List<Loan> getAllLoans();
     List<Loan> getLoansByResourceId(Long resourceId);
     Loan saveLoan(Loan loan);
-    Loan updateLoanByState(UpdateLoan body);
+    Boolean updateLoanByState(UpdateLoan body);
 
 }
