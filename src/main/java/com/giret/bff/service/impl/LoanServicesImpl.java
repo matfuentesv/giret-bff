@@ -7,6 +7,7 @@ import com.giret.bff.model.Resource;
 import com.giret.bff.service.LoanServices;
 import com.giret.bff.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,9 @@ public class LoanServicesImpl implements LoanServices {
 
     @Autowired
     FunctionClient functionClient;
+
+    @Value("${azure.function.updateResource.key}")
+    private String functionKey;
 
     @Override
     public List<Loan> getAllLoans() {
@@ -51,7 +55,7 @@ public class LoanServicesImpl implements LoanServices {
     public Loan saveLoan(Loan loan) {
         //Llamar function recurso ===> estado(prestado)
         final Resource resource = resourceService.findResourceById(loan.getRecursoId());
-        functionClient.updateResource(resource);
+        functionClient.updateResource(functionKey,resource);
         return loanClient.saveLoan(loan);
     }
 
