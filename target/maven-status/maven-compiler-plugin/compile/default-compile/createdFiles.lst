@@ -19,6 +19,7 @@ com\giret\bff\model\PrestamoPorVencer$PrestamoPorVencerBuilder.class
 com\giret\bff\model\PorcentajeRecurso.class
 com\giret\bff\service\ResourceService.class
 com\giret\bff\controller\DashboardController.class
+com\giret\bff\model\Resource$ResourceBuilder.class
 com\giret\bff\service\impl\ResourceServiceImpl.class
 com\giret\bff\model\Document.class
 com\giret\bff\model\Loan.class

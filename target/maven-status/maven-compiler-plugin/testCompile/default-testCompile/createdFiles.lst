@@ -1,0 +1,10 @@
+com\giret\bff\controller\ResourceControllerTest.class
+com\giret\bff\service\LoanServicesImplTest.class
+com\giret\bff\controller\DashboardControllerTest.class
+com\giret\bff\controller\LoanControllerTest.class
+com\giret\bff\service\HistoricalResourceServiceImplTest.class
+com\giret\bff\service\DashboardServiceImplTest.class
+com\giret\bff\service\DocumentServiceImplTest.class
+com\giret\bff\controller\HistoricalResourceControllerTest.class
+com\giret\bff\service\ResourceServiceImplTest.class
+com\giret\bff\controller\DocumentControllerTest.class

@@ -4,7 +4,6 @@ import com.giret.bff.model.*;
 import com.giret.bff.service.DashboardServices;
 import com.giret.bff.service.LoanServices;
 import com.giret.bff.service.ResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -16,11 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class DashboardServiceImpl implements DashboardServices {
 
-    @Autowired
-    ResourceService resourceService;
 
-    @Autowired
-    LoanServices loanServices;
+    private final ResourceService resourceService;
+
+    private final LoanServices loanServices;
+
+    public DashboardServiceImpl(ResourceService resourceService, LoanServices loanServices) {
+        this.resourceService = resourceService;
+        this.loanServices = loanServices;
+    }
 
     @Override
     public DashboardPanel getDashboardPanel() {
@@ -78,7 +81,7 @@ public class DashboardServiceImpl implements DashboardServices {
     }
 
     @Override
-    public List<PrestamoPorVencer> GetLoansDue() {
+    public List<PrestamoPorVencer> getLoansDue() {
 
         final LocalDate hoy = LocalDate.now();
         final LocalDate finSemana = hoy.with(java.time.DayOfWeek.SUNDAY);

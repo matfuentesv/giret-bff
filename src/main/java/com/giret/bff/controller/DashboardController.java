@@ -4,13 +4,11 @@ import com.giret.bff.model.DashboardPanel;
 import com.giret.bff.model.PorcentajeRecurso;
 import com.giret.bff.model.PrestamoPorVencer;
 import com.giret.bff.service.DashboardServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 
@@ -19,8 +17,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class DashboardController {
 
-    @Autowired
-    DashboardServices dashboardServices;
+
+    private final DashboardServices dashboardServices;
+
+    public DashboardController(DashboardServices dashboardServices) {
+        this.dashboardServices = dashboardServices;
+    }
 
     @GetMapping("/findAll")
     public ResponseEntity<DashboardPanel> findAllResources() {
@@ -34,7 +36,7 @@ public class DashboardController {
 
     @GetMapping("/findLoanDue")
     public ResponseEntity<List<PrestamoPorVencer>> prestamosPorVencer() {
-        return ResponseEntity.ok(dashboardServices.GetLoansDue());
+        return ResponseEntity.ok(dashboardServices.getLoansDue());
     }
 
 }

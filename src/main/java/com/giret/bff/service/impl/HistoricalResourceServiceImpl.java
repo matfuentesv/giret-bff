@@ -3,16 +3,18 @@ package com.giret.bff.service.impl;
 import com.giret.bff.client.HistoricalResourceClient;
 import com.giret.bff.model.HistoricalResource;
 import com.giret.bff.service.HistoricalResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class HistoricalResourceServiceImpl implements HistoricalResourceService {
 
-    @Autowired
-    HistoricalResourceClient historicalResourceClient;
 
+    private final HistoricalResourceClient historicalResourceClient;
+
+    public HistoricalResourceServiceImpl(HistoricalResourceClient historicalResourceClient) {
+        this.historicalResourceClient = historicalResourceClient;
+    }
 
     @Override
     public List<HistoricalResource> findAllHistoricalResource() {

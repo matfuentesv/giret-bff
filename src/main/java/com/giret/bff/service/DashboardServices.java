@@ -10,5 +10,5 @@ public interface DashboardServices {
 
     DashboardPanel getDashboardPanel();
     List<PorcentajeRecurso> countByEstadoConPorcentaje();
-    List<PrestamoPorVencer>GetLoansDue();
+    List<PrestamoPorVencer>getLoansDue();
 }

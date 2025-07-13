@@ -6,11 +6,7 @@ import com.giret.bff.client.ResourceClient;
 import com.giret.bff.model.HistoricalResource;
 import com.giret.bff.model.Resource;
 import com.giret.bff.service.ResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,12 +15,15 @@ import java.util.List;
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
-    @Autowired
-    ResourceClient  resourceClient;
 
-    @Autowired
-    HistoricalResourceClient historicalResourceClient;
+    private final ResourceClient  resourceClient;
+    private final HistoricalResourceClient historicalResourceClient;
 
+
+    public ResourceServiceImpl(ResourceClient resourceClient, HistoricalResourceClient historicalResourceClient) {
+        this.resourceClient = resourceClient;
+        this.historicalResourceClient = historicalResourceClient;
+    }
 
     @Override
     public List<Resource> findAllResource() {

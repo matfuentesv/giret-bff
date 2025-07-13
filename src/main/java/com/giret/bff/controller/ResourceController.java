@@ -3,7 +3,6 @@ package com.giret.bff.controller;
 
 import com.giret.bff.model.Resource;
 import com.giret.bff.service.ResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,13 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ResourceController {
 
-    @Autowired
-    ResourceService resourceService;
+
+    private final ResourceService resourceService;
+
+
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Resource>> findAllResources() {

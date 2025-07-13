@@ -3,7 +3,6 @@ package com.giret.bff.controller;
 import com.giret.bff.model.Loan;
 import com.giret.bff.model.UpdateLoan;
 import com.giret.bff.service.LoanServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +13,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class LoanController {
 
-    @Autowired
-    LoanServices loanServices;
 
+    private final LoanServices loanServices;
+
+    public LoanController(LoanServices loanServices) {
+        this.loanServices = loanServices;
+    }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Loan>> findAllLoan() {

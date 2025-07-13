@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoanServicesImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">giret-bff</a> &gt; <a href="index.source.html" class="el_package">com.giret.bff.service.impl</a> &gt; <span class="el_source">LoanServicesImpl.java</span></div><h1>LoanServicesImpl.java</h1><pre class="source lang-java linenums">package com.giret.bff.service.impl;
+
+import com.giret.bff.client.FunctionClient;
+import com.giret.bff.client.HistoricalResourceClient;
+import com.giret.bff.client.LoanClient;
+import com.giret.bff.model.HistoricalResource;
+import com.giret.bff.model.Loan;
+import com.giret.bff.model.Resource;
+import com.giret.bff.model.UpdateLoan;
+import com.giret.bff.service.LoanServices;
+import com.giret.bff.service.ResourceService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@Service
+public class LoanServicesImpl implements LoanServices {
+
+
+    private final LoanClient loanClient;
+    private final ResourceService resourceService;
+    private final FunctionClient functionClient;
+    private final HistoricalResourceClient historicalResourceClient;
+
+    @Value(&quot;${azure.function.updateResource.key}&quot;)
+    public String functionKeyResource;
+
+    @Value(&quot;${azure.function.updateLoan.key}&quot;)
+    public String functionKeyLoan;
+
+<span class="fc" id="L36">    public LoanServicesImpl(LoanClient loanClient, ResourceService resourceService, FunctionClient functionClient, HistoricalResourceClient historicalResourceClient) {</span>
+<span class="fc" id="L37">        this.loanClient = loanClient;</span>
+<span class="fc" id="L38">        this.resourceService = resourceService;</span>
+<span class="fc" id="L39">        this.functionClient = functionClient;</span>
+<span class="fc" id="L40">        this.historicalResourceClient = historicalResourceClient;</span>
+<span class="fc" id="L41">    }</span>
+
+    @Override
+    public List&lt;Loan&gt; getAllLoans() {
+<span class="fc" id="L45">        return loanClient.findAllLoan().stream()</span>
+<span class="fc" id="L46">                .map(loan -&gt; Loan.builder()</span>
+<span class="fc" id="L47">                        .idPrestamo(loan.getIdPrestamo())</span>
+<span class="fc" id="L48">                        .recursoId(loan.getRecursoId())</span>
+<span class="fc" id="L49">                        .fechaPrestamo(loan.getFechaPrestamo())</span>
+<span class="fc" id="L50">                        .fechaDevolucion(loan.getFechaDevolucion())</span>
+<span class="fc" id="L51">                        .solicitante(loan.getSolicitante())</span>
+<span class="fc" id="L52">                        .estado(loan.getEstado())</span>
+<span class="fc" id="L53">                        .resource(resourceService.findResourceById(loan.getRecursoId()))</span>
+<span class="fc" id="L54">                        .build())</span>
+<span class="fc" id="L55">                .collect(Collectors.toList());</span>
+    }
+
+
+    @Override
+    public List&lt;Loan&gt; getLoansByResourceId(Long resourceId) {
+<span class="fc" id="L61">        return loanClient.findLoandByResource(resourceId);</span>
+    }
+
+
+
+    @Override
+    public Loan saveLoan(Loan loan) {
+<span class="fc" id="L68">        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L69">        final ZoneId chileZoneId = ZoneId.of(&quot;America/Santiago&quot;);</span>
+<span class="fc" id="L70">        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);</span>
+<span class="fc" id="L71">        final Resource resource = resourceService.findResourceById(loan.getRecursoId());</span>
+<span class="fc" id="L72">        functionClient.updateResource(functionKeyResource,resource);</span>
+        final HistoricalResource historicalResource = HistoricalResource
+<span class="fc" id="L74">                .builder()</span>
+<span class="fc" id="L75">                .recursoId(resource.getIdRecurso())</span>
+<span class="fc" id="L76">                .fechaCambioEstado(fechaCambioEstado)</span>
+<span class="fc" id="L77">                .accion(&quot;Actualizacion&quot;)</span>
+<span class="fc" id="L78">                .descripcion(&quot;Cambio de estado a prestado&quot;)</span>
+<span class="fc" id="L79">                .build();</span>
+<span class="fc" id="L80">        historicalResourceClient.saveHistoricalResource(historicalResource);</span>
+<span class="fc" id="L81">        return loanClient.saveLoan(loan);</span>
+    }
+
+    @Override
+    public Boolean updateLoanByState(UpdateLoan body) {
+<span class="fc" id="L86">        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L87">        final ZoneId chileZoneId = ZoneId.of(&quot;America/Santiago&quot;);</span>
+<span class="fc" id="L88">        String fechaCambioEstado = ZonedDateTime.now(chileZoneId).format(formatter);</span>
+<span class="fc" id="L89">        functionClient.updateLoan(functionKeyLoan,body);</span>
+        final HistoricalResource historicalResource = HistoricalResource
+<span class="fc" id="L91">                .builder()</span>
+<span class="fc" id="L92">                .recursoId(body.getRecursoId())</span>
+<span class="fc" id="L93">                .fechaCambioEstado(fechaCambioEstado)</span>
+<span class="fc" id="L94">                .accion(&quot;Actualizacion&quot;)</span>
+<span class="fc" id="L95">                .descripcion(&quot;Cambio de estado a devuelto a Bodega&quot;)</span>
+<span class="fc" id="L96">                .build();</span>
+<span class="fc" id="L97">        historicalResourceClient.saveHistoricalResource(historicalResource);</span>
+<span class="fc" id="L98">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -9,12 +9,8 @@ import com.giret.bff.model.Resource;
 import com.giret.bff.model.UpdateLoan;
 import com.giret.bff.service.LoanServices;
 import com.giret.bff.service.ResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,23 +21,24 @@ import java.util.stream.Collectors;
 @Service
 public class LoanServicesImpl implements LoanServices {
 
-    @Autowired
-    LoanClient loanClient;
 
-    @Autowired
-    ResourceService resourceService;
-
-    @Autowired
-    FunctionClient functionClient;
+    private final LoanClient loanClient;
+    private final ResourceService resourceService;
+    private final FunctionClient functionClient;
+    private final HistoricalResourceClient historicalResourceClient;
 
     @Value("${azure.function.updateResource.key}")
-    private String functionKeyResource;
+    public String functionKeyResource;
 
     @Value("${azure.function.updateLoan.key}")
-    private String functionKeyLoan;
+    public String functionKeyLoan;
 
-    @Autowired
-    HistoricalResourceClient historicalResourceClient;
+    public LoanServicesImpl(LoanClient loanClient, ResourceService resourceService, FunctionClient functionClient, HistoricalResourceClient historicalResourceClient) {
+        this.loanClient = loanClient;
+        this.resourceService = resourceService;
+        this.functionClient = functionClient;
+        this.historicalResourceClient = historicalResourceClient;
+    }
 
     @Override
     public List<Loan> getAllLoans() {
