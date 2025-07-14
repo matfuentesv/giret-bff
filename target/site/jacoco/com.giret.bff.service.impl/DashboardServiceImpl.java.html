@@ -20,112 +20,112 @@ public class DashboardServiceImpl implements DashboardServices {
 
     private final LoanServices loanServices;
 
-<span class="fc" id="L23">    public DashboardServiceImpl(ResourceService resourceService, LoanServices loanServices) {</span>
-<span class="fc" id="L24">        this.resourceService = resourceService;</span>
-<span class="fc" id="L25">        this.loanServices = loanServices;</span>
-<span class="fc" id="L26">    }</span>
+<span class="nc" id="L23">    public DashboardServiceImpl(ResourceService resourceService, LoanServices loanServices) {</span>
+<span class="nc" id="L24">        this.resourceService = resourceService;</span>
+<span class="nc" id="L25">        this.loanServices = loanServices;</span>
+<span class="nc" id="L26">    }</span>
 
     @Override
     public DashboardPanel getDashboardPanel() {
 
-<span class="fc" id="L31">        final Long recursosTotales = (long) resourceService.findAllResource().size();</span>
+<span class="nc" id="L31">        final Long recursosTotales = (long) resourceService.findAllResource().size();</span>
 
-<span class="fc" id="L33">        final Long recursosPrestados = resourceService.findAllResource()</span>
-<span class="fc" id="L34">                                          .stream()</span>
-<span class="fc" id="L35">                                          .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;prestado&quot;))</span>
-<span class="fc" id="L36">                                          .count();</span>
-<span class="fc" id="L37">        final Long recursosMantenimiento = resourceService.findAllResource().stream()</span>
-<span class="fc" id="L38">                                            .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;mantenimiento&quot;))</span>
-<span class="fc" id="L39">                                            .count();</span>
+<span class="nc" id="L33">        final Long recursosPrestados = resourceService.findAllResource()</span>
+<span class="nc" id="L34">                                          .stream()</span>
+<span class="nc" id="L35">                                          .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;prestado&quot;))</span>
+<span class="nc" id="L36">                                          .count();</span>
+<span class="nc" id="L37">        final Long recursosMantenimiento = resourceService.findAllResource().stream()</span>
+<span class="nc" id="L38">                                            .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;mantenimiento&quot;))</span>
+<span class="nc" id="L39">                                            .count();</span>
 
-<span class="fc" id="L41">        final Long recursosEliminado = resourceService.findAllResource().stream()</span>
-<span class="fc" id="L42">                .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;eliminado&quot;))</span>
-<span class="fc" id="L43">                .count();</span>
+<span class="nc" id="L41">        final Long recursosEliminado = resourceService.findAllResource().stream()</span>
+<span class="nc" id="L42">                .filter(x-&gt; x.getEstado().equalsIgnoreCase(&quot;eliminado&quot;))</span>
+<span class="nc" id="L43">                .count();</span>
 
-<span class="fc" id="L45">        return  DashboardPanel.builder()</span>
-<span class="fc" id="L46">                .recursosTotales(recursosTotales)</span>
-<span class="fc" id="L47">                .recursosPrestados(recursosPrestados)</span>
-<span class="fc" id="L48">                .recursosMantenimiento(recursosMantenimiento)</span>
-<span class="fc" id="L49">                .recursosEliminado(recursosEliminado)</span>
-<span class="fc" id="L50">                .build();</span>
+<span class="nc" id="L45">        return  DashboardPanel.builder()</span>
+<span class="nc" id="L46">                .recursosTotales(recursosTotales)</span>
+<span class="nc" id="L47">                .recursosPrestados(recursosPrestados)</span>
+<span class="nc" id="L48">                .recursosMantenimiento(recursosMantenimiento)</span>
+<span class="nc" id="L49">                .recursosEliminado(recursosEliminado)</span>
+<span class="nc" id="L50">                .build();</span>
     }
 
     @Override
     public List&lt;PorcentajeRecurso&gt; countByEstadoConPorcentaje() {
 
-<span class="fc" id="L56">        final List&lt;Resource&gt; resourceList = resourceService.findAllResource();</span>
-<span class="fc" id="L57">        Map&lt;String, Long&gt; counts = resourceList</span>
-<span class="fc" id="L58">                                  .stream()</span>
-<span class="fc" id="L59">                                  .collect(Collectors.groupingBy(Resource::getEstado, Collectors.counting()));</span>
+<span class="nc" id="L56">        final List&lt;Resource&gt; resourceList = resourceService.findAllResource();</span>
+<span class="nc" id="L57">        Map&lt;String, Long&gt; counts = resourceList</span>
+<span class="nc" id="L58">                                  .stream()</span>
+<span class="nc" id="L59">                                  .collect(Collectors.groupingBy(Resource::getEstado, Collectors.counting()));</span>
 
-<span class="fc" id="L61">        long total = resourceList.size();</span>
+<span class="nc" id="L61">        long total = resourceList.size();</span>
 
 
-<span class="fc" id="L64">        List&lt;PorcentajeRecurso&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L65">        counts.forEach((estado, cantidad) -&gt; {</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">            double porcentaje = total &gt; 0 ? (cantidad * 100.0) / total : 0.0;</span>
+<span class="nc" id="L64">        List&lt;PorcentajeRecurso&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L65">        counts.forEach((estado, cantidad) -&gt; {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            double porcentaje = total &gt; 0 ? (cantidad * 100.0) / total : 0.0;</span>
 
             // 🔵 Redondear a 1 decimal
-<span class="fc" id="L69">            porcentaje = Math.round(porcentaje * 10.0) / 10.0;</span>
+<span class="nc" id="L69">            porcentaje = Math.round(porcentaje * 10.0) / 10.0;</span>
 
-<span class="fc" id="L71">            PorcentajeRecurso p = PorcentajeRecurso.builder()</span>
-<span class="fc" id="L72">                    .estado(estado)</span>
-<span class="fc" id="L73">                    .porcentaje(porcentaje)</span>
-<span class="fc" id="L74">                    .cantidad(cantidad)</span>
-<span class="fc" id="L75">                    .build();</span>
-<span class="fc" id="L76">            result.add(p);</span>
-<span class="fc" id="L77">        });</span>
+<span class="nc" id="L71">            PorcentajeRecurso p = PorcentajeRecurso.builder()</span>
+<span class="nc" id="L72">                    .estado(estado)</span>
+<span class="nc" id="L73">                    .porcentaje(porcentaje)</span>
+<span class="nc" id="L74">                    .cantidad(cantidad)</span>
+<span class="nc" id="L75">                    .build();</span>
+<span class="nc" id="L76">            result.add(p);</span>
+<span class="nc" id="L77">        });</span>
 
 
-<span class="fc" id="L80">        return result;</span>
+<span class="nc" id="L80">        return result;</span>
     }
 
     @Override
     public List&lt;PrestamoPorVencer&gt; getLoansDue() {
 
-<span class="fc" id="L86">        final LocalDate hoy = LocalDate.now();</span>
-<span class="fc" id="L87">        final LocalDate finSemana = hoy.with(java.time.DayOfWeek.SUNDAY);</span>
-
-<span class="fc" id="L89">        final List&lt;Loan&gt; loanList = loanServices.getAllLoans().stream()</span>
-<span class="fc" id="L90">                .filter(loan -&gt; {</span>
-<span class="fc" id="L91">                    LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());</span>
-<span class="pc bpc" id="L92" title="2 of 4 branches missed.">                    return !fechaDev.isBefore(hoy) &amp;&amp; !fechaDev.isAfter(finSemana);</span>
+<span class="nc" id="L86">        final LocalDate hoy = LocalDate.now();</span>
+<span class="nc" id="L87">        final LocalDate limite = hoy.plusDays(7);</span>
+<span class="nc" id="L88">        final List&lt;Loan&gt; loanList = loanServices.getAllLoans().stream()</span>
+<span class="nc" id="L89">                .filter(loan -&gt; {</span>
+<span class="nc" id="L90">                    LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">                    return !fechaDev.isBefore(hoy) &amp;&amp; !fechaDev.isAfter(limite);</span>
                 })
-<span class="fc" id="L94">                .collect(Collectors.toMap(</span>
-                        Loan::getIdPrestamo, // Key: ID único
-<span class="fc" id="L96">                        loan -&gt; loan,        // Value: objeto Loan</span>
-<span class="nc" id="L97">                        (loan1, loan2) -&gt; loan1 // Si hay repetidos, conservar uno solo</span>
+<span class="nc" id="L93">                .collect(Collectors.toMap(</span>
+                        Loan::getIdPrestamo,
+<span class="nc" id="L95">                        loan -&gt; loan,</span>
+<span class="nc" id="L96">                        (loan1, loan2) -&gt; loan1</span>
                 ))
-<span class="fc" id="L99">                .values().stream().toList();</span>
+<span class="nc" id="L98">                .values().stream().toList();</span>
 
-<span class="fc" id="L101">        List&lt;PrestamoPorVencer&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L100">        List&lt;PrestamoPorVencer&gt; result = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (Loan loan : loanList) {</span>
-<span class="fc" id="L104">            LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());</span>
-<span class="fc" id="L105">            long dias = ChronoUnit.DAYS.between(hoy, fechaDev);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (Loan loan : loanList) {</span>
+<span class="nc" id="L103">            LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());</span>
+<span class="nc" id="L104">            long dias = ChronoUnit.DAYS.between(hoy, fechaDev);</span>
 
             String mensaje;
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            if (dias == 0) {</span>
-<span class="fc" id="L109">                mensaje = &quot;Vence Hoy&quot;;</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">            } else if (dias == 1) {</span>
-<span class="nc" id="L111">                mensaje = &quot;Vence Mañana&quot;;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (dias == 0) {</span>
+<span class="nc" id="L108">                mensaje = &quot;Vence Hoy&quot;;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            } else if (dias == 1) {</span>
+<span class="nc" id="L110">                mensaje = &quot;Vence Mañana&quot;;</span>
             } else {
-<span class="nc" id="L113">                mensaje = &quot;Vence en &quot; + dias + &quot; días&quot;;</span>
+<span class="nc" id="L112">                mensaje = &quot;Vence en &quot; + dias + &quot; días&quot;;</span>
             }
 
-<span class="fc" id="L116">            PrestamoPorVencer p = PrestamoPorVencer.builder()</span>
-<span class="fc" id="L117">                    .prestamoId(loan.getIdPrestamo())</span>
-<span class="fc" id="L118">                    .recurso(resourceService.findResourceById(loan.getRecursoId()))</span>
-<span class="fc" id="L119">                    .solicitadoPor(loan.getSolicitante())</span>
-<span class="fc" id="L120">                    .mensajeVencimiento(mensaje)</span>
-<span class="fc" id="L121">                    .fechaDevolucion(loan.getFechaDevolucion())</span>
-<span class="fc" id="L122">                    .build();</span>
+<span class="nc" id="L115">            PrestamoPorVencer p = PrestamoPorVencer.builder()</span>
+<span class="nc" id="L116">                    .prestamoId(loan.getIdPrestamo())</span>
+<span class="nc" id="L117">                    .recurso(resourceService.findResourceById(loan.getRecursoId()))</span>
+<span class="nc" id="L118">                    .solicitadoPor(loan.getSolicitante())</span>
+<span class="nc" id="L119">                    .mensajeVencimiento(mensaje)</span>
+<span class="nc" id="L120">                    .fechaDevolucion(loan.getFechaDevolucion())</span>
+<span class="nc" id="L121">                    .build();</span>
 
-<span class="fc" id="L124">            result.add(p);</span>
-<span class="fc" id="L125">        }</span>
+<span class="nc" id="L123">            result.add(p);</span>
+<span class="nc" id="L124">        }</span>
 
-<span class="fc" id="L127">        return result;</span>
+<span class="nc" id="L126">        return result;</span>
     }
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

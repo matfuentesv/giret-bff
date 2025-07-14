@@ -84,17 +84,16 @@ public class DashboardServiceImpl implements DashboardServices {
     public List<PrestamoPorVencer> getLoansDue() {
 
         final LocalDate hoy = LocalDate.now();
-        final LocalDate finSemana = hoy.with(java.time.DayOfWeek.SUNDAY);
-
+        final LocalDate limite = hoy.plusDays(7);
         final List<Loan> loanList = loanServices.getAllLoans().stream()
                 .filter(loan -> {
                     LocalDate fechaDev = LocalDate.parse(loan.getFechaDevolucion());
-                    return !fechaDev.isBefore(hoy) && !fechaDev.isAfter(finSemana);
+                    return !fechaDev.isBefore(hoy) && !fechaDev.isAfter(limite);
                 })
                 .collect(Collectors.toMap(
-                        Loan::getIdPrestamo, // Key: ID único
-                        loan -> loan,        // Value: objeto Loan
-                        (loan1, loan2) -> loan1 // Si hay repetidos, conservar uno solo
+                        Loan::getIdPrestamo,
+                        loan -> loan,
+                        (loan1, loan2) -> loan1
                 ))
                 .values().stream().toList();
 
@@ -126,5 +125,6 @@ public class DashboardServiceImpl implements DashboardServices {
 
         return result;
     }
+
 
 }
