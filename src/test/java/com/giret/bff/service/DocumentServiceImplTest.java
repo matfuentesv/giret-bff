@@ -7,9 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +24,7 @@ class DocumentServiceImplTest {
 
     @Test
     void testSaveDocument() {
-        // Arrange
+
         MultipartFile file = new MockMultipartFile(
                 "file", "archivo.pdf", "application/pdf", "Hello World".getBytes()
         );
@@ -41,10 +39,10 @@ class DocumentServiceImplTest {
 
         when(documentClient.saveDocument(100L, file)).thenReturn(expected);
 
-        // Act
+
         Document result = documentService.saveDocument(file, 100L);
 
-        // Assert
+
         assertNotNull(result);
         assertEquals(1L, result.getId());
         assertEquals("archivo.pdf", result.getNombreArchivo());

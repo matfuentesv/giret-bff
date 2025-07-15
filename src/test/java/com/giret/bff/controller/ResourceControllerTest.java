@@ -5,11 +5,8 @@ import com.giret.bff.service.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +29,8 @@ class ResourceControllerTest {
         ResponseEntity<List<Resource>> response = resourceController.findAllResources();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(1L, response.getBody().get(0).getIdRecurso());
         verify(resourceService, times(1)).findAllResource();
@@ -46,7 +44,8 @@ class ResourceControllerTest {
         ResponseEntity<Resource> response = resourceController.findResourceById(2L);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(2L, response.getBody().getIdRecurso());
         verify(resourceService, times(1)).findResourceById(2L);
     }
@@ -61,7 +60,8 @@ class ResourceControllerTest {
         ResponseEntity<Resource> response = resourceController.saveResource(request);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(3L, response.getBody().getIdRecurso());
         verify(resourceService, times(1)).saveResource(request);
     }
@@ -76,7 +76,8 @@ class ResourceControllerTest {
         ResponseEntity<Resource> response = resourceController.updateResource(4L, request);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(4L, response.getBody().getIdRecurso());
         verify(resourceService, times(1)).updateResource(4L, request);
     }
@@ -88,8 +89,8 @@ class ResourceControllerTest {
         ResponseEntity<Boolean> response = resourceController.deleteResource(5L);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
-        assertTrue(response.getBody());
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(Boolean.TRUE, response.getBody());
         verify(resourceService, times(1)).deleteResource(5L);
     }
 
@@ -100,7 +101,7 @@ class ResourceControllerTest {
         ResponseEntity<Long> response = resourceController.countResources();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(10L, response.getBody());
         verify(resourceService, times(1)).countResources();
     }
@@ -117,7 +118,8 @@ class ResourceControllerTest {
         ResponseEntity<List<Resource>> response = resourceController.findByEstado("activo");
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals("activo", response.getBody().get(0).getEstado());
         verify(resourceService, times(1)).findByEstado("activo");
@@ -131,7 +133,8 @@ class ResourceControllerTest {
         ResponseEntity<List<Resource>> response = resourceController.searchResource("HP");
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals("HP", response.getBody().get(0).getModelo());
         verify(resourceService, times(1)).searchResource("HP");
@@ -150,7 +153,8 @@ class ResourceControllerTest {
         ResponseEntity<List<Object[]>> response = resourceController.countByEstado();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals("activo", response.getBody().get(0)[0]);
         assertEquals(5L, response.getBody().get(0)[1]);

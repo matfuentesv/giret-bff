@@ -6,9 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
-
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,7 @@ class DocumentControllerTest {
 
     @Test
     void testUpload() {
-        // Arrange
+
         MockMultipartFile file = new MockMultipartFile(
                 "file", "test.pdf", "application/pdf", "Hello World".getBytes()
         );
@@ -40,12 +38,11 @@ class DocumentControllerTest {
 
         when(documentService.saveDocument(file, 10L)).thenReturn(savedDoc);
 
-        // Act
-        ResponseEntity<Document> response = documentController.upload(file, 10L);
 
-        // Assert
+        ResponseEntity<Document> response = documentController.upload(file, 10L);
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals("test.pdf", response.getBody().getNombreArchivo());
         assertEquals(10L, response.getBody().getRecursoId());
         verify(documentService, times(1)).saveDocument(file, 10L);
@@ -64,7 +61,8 @@ class DocumentControllerTest {
         ResponseEntity<List<Document>> response = documentController.findByRecursoId(5L);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(5L, response.getBody().get(0).getRecursoId());
         verify(documentService, times(1)).findResourceById(5L);

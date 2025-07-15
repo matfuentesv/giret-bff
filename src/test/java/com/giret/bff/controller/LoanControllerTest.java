@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +37,8 @@ class LoanControllerTest {
         ResponseEntity<List<Loan>> response = loanController.findAllLoan();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(1L, response.getBody().get(0).getIdPrestamo());
         verify(loanServices, times(1)).getAllLoans();
@@ -57,7 +57,8 @@ class LoanControllerTest {
         ResponseEntity<List<Loan>> response = loanController.findLoandByResource(5L);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(5L, response.getBody().get(0).getRecursoId());
         verify(loanServices, times(1)).getLoansByResourceId(5L);
@@ -81,7 +82,8 @@ class LoanControllerTest {
         ResponseEntity<Loan> response = loanController.saveLoan(request);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(3L, response.getBody().getIdPrestamo());
         verify(loanServices, times(1)).saveLoan(request);
     }
@@ -98,8 +100,8 @@ class LoanControllerTest {
         ResponseEntity<Boolean> response = loanController.updateLoanByState(updateLoan);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
-        assertTrue(response.getBody());
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(Boolean.TRUE, response.getBody());
         verify(loanServices, times(1)).updateLoanByState(updateLoan);
     }
 

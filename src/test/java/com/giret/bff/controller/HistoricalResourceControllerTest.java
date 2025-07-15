@@ -5,9 +5,7 @@ import com.giret.bff.service.HistoricalResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +34,8 @@ class HistoricalResourceControllerTest {
         ResponseEntity<List<HistoricalResource>> response = historicalResourceController.findAllHistoricalResource();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(1L, response.getBody().get(0).getIdHistorial());
         verify(historicalResourceService, times(1)).findAllHistoricalResource();
@@ -56,7 +55,8 @@ class HistoricalResourceControllerTest {
         ResponseEntity<List<HistoricalResource>> response = historicalResourceController.findResourceById(200L);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals(200L, response.getBody().get(0).getRecursoId());
         verify(historicalResourceService, times(1)).findHistoricalByResourceId(200L);
@@ -82,7 +82,8 @@ class HistoricalResourceControllerTest {
         ResponseEntity<HistoricalResource> response = historicalResourceController.saveHistoricalResource(request);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(3L, response.getBody().getIdHistorial());
         verify(historicalResourceService, times(1)).saveHistoricalResource(request);
     }

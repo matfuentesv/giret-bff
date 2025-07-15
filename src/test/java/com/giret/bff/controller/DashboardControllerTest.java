@@ -37,7 +37,8 @@ class DashboardControllerTest {
         ResponseEntity<DashboardPanel> response = dashboardController.findAllResources();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(10L, response.getBody().getRecursosTotales());
         verify(dashboardServices, times(1)).getDashboardPanel();
     }
@@ -55,7 +56,8 @@ class DashboardControllerTest {
         ResponseEntity<List<PorcentajeRecurso>> response = dashboardController.countByEstadoConPorcentaje();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals("activo", response.getBody().get(0).getEstado());
         verify(dashboardServices, times(1)).countByEstadoConPorcentaje();
@@ -75,7 +77,8 @@ class DashboardControllerTest {
         ResponseEntity<List<PrestamoPorVencer>> response = dashboardController.prestamosPorVencer();
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
         assertEquals("Vence Hoy", response.getBody().get(0).getMensajeVencimiento());
         verify(dashboardServices, times(1)).getLoansDue();
